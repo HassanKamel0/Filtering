@@ -1,6 +1,5 @@
 package TibcoFiltering;
 
-
 import java.io.IOException;
 import java.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,24 +13,19 @@ public class Main {
         String response = "{\"Name\": \"John\", \"id\": 30, \"href\": \"New York\"}";
         String str = "[{\"No\":\"17\",\"Name\":\"Andrew\"},{\"No\":\"18\",\"Name\":\"Peter\"}, {\"No\":\"19\",\"Name\":\"Tom\"}]";
         System.out.println(filteringResponse(queryFields,str));
-       // String returned= filteringResponse(queryFields, response);
-       // System.out.println(returned);
-//       String result= Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        String prettyJson = gson.toJson(jsonObject);
-//        System.out.println(prettyJson);
     }
-    public static String filteringResponse(String queryFields,String response2) throws JsonProcessingException {
+    public static String filteringResponse(String queryFields,String payload) throws JsonProcessingException {
         Map<String, Object> filteredResponse=new LinkedHashMap<>();
         try {
-            JSONArray array = new JSONArray(response2);
-            JSONArray output = new JSONArray();
+            JSONArray array = new JSONArray(payload);
+            JSONArray arrayResponse = new JSONArray();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
-                output.put(new JSONObject(filteringResponse(queryFields, String.valueOf(object))));
+                arrayResponse.put(new JSONObject(filteringResponse(queryFields, String.valueOf(object))));
             }
-            return String.valueOf(output);
+            return String.valueOf(arrayResponse);
         }catch (Exception e) {
-            JSONObject response = new JSONObject(response2);
+            JSONObject response = new JSONObject(payload);
              filteredResponse.put("id",response.get("id"));
              filteredResponse.put("href",response.get("href"));
             if (!queryFields.isEmpty())
